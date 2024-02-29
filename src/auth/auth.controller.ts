@@ -13,6 +13,9 @@ import { UserEntity } from 'src/user/entities/user.entity';
 import { AuthGuard, Public } from 'src/authguard/auth.guard';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { JwtAuthGuard } from 'src/authguard/jwt.guard';
+import { ContentValue } from './decorators/content.decorator';
+import { Auth } from './decorators/auth.decorator';
+import { CreateAuthDto } from './dto/create-auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -49,6 +52,19 @@ export class AuthController {
   status(@Request() req: Request) 
   {
     console.log("status");
+  }
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Get('content')
+  getContent(@ContentValue('content') ContentValue: number)
+  {
+    return ContentValue;
+  }
+  
+  @Post('authtype')
+  addType(@Auth( "type") type : string): CreateAuthDto
+  {
+    return type;
   }
 
 }
